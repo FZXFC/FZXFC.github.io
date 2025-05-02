@@ -1,8 +1,28 @@
+<!DOCTYPE html>
 <html>
 <head>
     <script>
         window.onload = function() {
-            window.location.href = "https://eternal-poodle-exactly.ngrok-free.app/";
+            const targetUrl = "https://eternal-poodle-exactly.ngrok-free.app/";
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', targetUrl, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(xhr.responseText, 'text/html');
+                        const title = doc.title;
+                        if (title.includes('ERR_NGROK_3200')) {
+                            alert('目标网站不可用，请稍后再试。');
+                        } else {
+                            window.location.href = targetUrl;
+                        }
+                    } else {
+                        alert('无法连接到目标网站，请稍后再试。');
+                    }
+                }
+            };
+            xhr.send();
         };
     </script>
 </head>
@@ -10,3 +30,4 @@
     <p>若无法跳转，请点击<a href="https://eternal-poodle-exactly.ngrok-free.app/">here</a></p>
 </body>
 </html>
+    
