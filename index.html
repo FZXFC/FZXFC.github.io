@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <script>
-        window.onload = function() {
+        window.onload = function () {
             const targetUrl = "https://eternal-poodle-exactly.ngrok-free.app/";
+            const fallbackUrl = "./server_down.html"; // 请替换为实际的备用网址
             const xhr = new XMLHttpRequest();
             xhr.open('GET', targetUrl, true);
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(xhr.responseText, 'text/html');
-                        const title = doc.title;
-                        if (title.includes('ERR_NGROK_3200')) {
-                            alert('目标网站不可用，请稍后再试。');
-                        } else {
-                            window.location.href = targetUrl;
-                        }
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        window.location.href = targetUrl;
                     } else {
-                        alert('无法连接到目标网站，请稍后再试。');
+                        window.location.href = fallbackUrl;
                     }
                 }
             };
@@ -26,8 +21,10 @@
         };
     </script>
 </head>
+
 <body>
-    <p>若无法跳转，请点击<a href="https://eternal-poodle-exactly.ngrok-free.app/">here</a></p>
+    <p>若无法跳转，请点击 <a href="https://eternal-poodle-exactly.ngrok-free.app/">here</a></p>
 </body>
+
 </html>
     
